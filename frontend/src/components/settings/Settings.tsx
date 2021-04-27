@@ -245,7 +245,7 @@ const Settings: React.FC<SettingsProps> = () => {
               width="100%"
               height="100px"
               bgcolor="#e9ecef"
-              mt={-26}
+              mt={-10}
               display="flex"
               alignItems="center"
               justifyContent="center"

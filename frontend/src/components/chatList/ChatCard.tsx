@@ -1,5 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Avatar, Box, makeStyles, Typography } from "@material-ui/core";
+import {
+  Avatar,
+  Box,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { setChatInfo } from "../../store/chatRoom/chatRoomActions";
 import React from "react";
@@ -7,6 +14,7 @@ import { CHAT } from "../../store/chatList/chatListTypes";
 import { RootStore } from "../../store";
 import { serverUrl } from "../../services/serverUrl.json";
 import getDate from "../../services/date";
+import { useHistory } from "react-router-dom";
 export interface ChatCardProps {
   chatCard: CHAT;
 }
@@ -29,11 +37,16 @@ const useStyles = makeStyles({
 const ChatCard: React.FC<ChatCardProps> = ({ chatCard }) => {
   const { chatInfo, friendInfo } = chatCard;
   const { room } = useSelector((state: RootStore) => state.chatRoom);
-
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleChangeChat = async () => {
     dispatch(setChatInfo(friendInfo));
+    if (matches) {
+      history.push("/room");
+    }
   };
 
   const classes = useStyles();

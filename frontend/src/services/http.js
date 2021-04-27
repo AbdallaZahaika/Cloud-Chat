@@ -11,7 +11,7 @@ export function refreshRequestToken() {
 refreshRequestToken();
 
 /// baseURL
-axios.defaults.baseURL = `http://localhost:3001/api`;
+axios.defaults.baseURL = `https://cloud-messanger.herokuapp.com/api`;
 
 /// when server sends error >= 403  show in page An unexpected error occurred
 axios.interceptors.response.use(null, (err) => {

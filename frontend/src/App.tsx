@@ -1,6 +1,13 @@
-import { Box, Container, Grid, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Grid,
+  makeStyles,
+  useTheme,
+  useMediaQuery,
+} from "@material-ui/core";
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import ChatContainer from "./components/chatRoom/ChatContainer";
 import NavBarLeft from "./components/NavBarLeft";
 import ChatListContainer from "./components/chatList/ChatListContainer";
@@ -19,12 +26,13 @@ import ConfirmEmail from "./components/ConfirmEmail";
 import SendForgotPassowrdEmail from "./components/forgotPassword/SendForgotPassowrdEmail";
 import ResetPassword from "./components/forgotPassword/ResetPassword";
 import ProtectedRouter from "./components/common/protectedRouter";
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: "#E3ECD5",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    padding: 0,
   },
   maxWidthXl: {
     width: "100vw",
@@ -37,16 +45,23 @@ const useStyles = makeStyles({
     borderRadius: 5,
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      height: "100vh",
+      borderRadius: 0,
+    },
   },
   rightSideBox: {
-    height: "93vh",
-    backgroundImage:
-      "url(https://i.pinimg.com/originals/7b/1d/8e/7b1d8e865da2c11b788a21a0fb51d542.jpg)",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
-});
+}));
 
 const App: React.FC = () => {
+  const location = useLocation();
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Container
       className={`${classes.container} ${classes.maxWidthXl}`}
@@ -56,9 +71,10 @@ const App: React.FC = () => {
       <Provider store={store}>
         <Container maxWidth="lg" fixed className={classes.minicontainer}>
           <Grid container>
-            <Grid item lg={4} md={4}>
+            <Grid item lg={4} md={4} xs={12}>
               <Box>
-                <NavBarLeft></NavBarLeft>
+                {location.pathname !== "/room" ? <NavBarLeft /> : ""}
+
                 <Switch>
                   {/* NO USER  */}
                   <Route path="/login" component={Login} />
@@ -98,15 +114,16 @@ const App: React.FC = () => {
                     component={ChangePassWord}
                   />
                   <ProtectedRouter path="/profile" component={Settings} />
+                  {matches ? (
+                    <ProtectedRouter path="/room" component={ChatContainer} />
+                  ) : (
+                    ""
+                  )}
                 </Switch>
               </Box>
             </Grid>
             <Grid item lg={8} md={8}>
-              <Box
-                display="flex"
-                flexDirection="column"
-                className={classes.rightSideBox}
-              >
+              <Box className={classes.rightSideBox}>
                 <ChatContainer />
               </Box>
             </Grid>

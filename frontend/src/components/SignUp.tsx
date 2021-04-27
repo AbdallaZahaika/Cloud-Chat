@@ -120,27 +120,27 @@ const SignUp: React.FC<LoginProps> = () => {
     setImg(URL.createObjectURL(file));
     /// this new image
     setFieldValue("avatar", file);
-    if (file.size > FILE_SIZE) {
-      setFieldError("avatar", "file to large");
-    } else if (
-      file.type !== ".png" &&
-      file.type !== ".jpg" &&
-      file.type !== ".jpeg" &&
-      file.type !== ".gif" &&
-      file.type !== ".psd" &&
-      file.type !== ".jfif"
-    ) {
-      setFieldError("avatar", "only .png .jpg .jpeg .gif .psd .jfif");
-    }
+    // if (file.size > FILE_SIZE) {
+    //   setFieldError("avatar", "file to large");
+    // } else if (
+    //   file.type !== ".png" &&
+    //   file.type !== ".jpg" &&
+    //   file.type !== ".jpeg" &&
+    //   file.type !== ".gif" &&
+    //   file.type !== ".psd" &&
+    //   file.type !== ".jfif"
+    // ) {
+    //   setFieldError("avatar", "only .png .jpg .jpeg .gif .psd .jfif");
+    // }
   };
 
   const handleDeleteImage = (
-    setFieldValue: (field: string, value: object) => void
+    setFieldValue: (field: string, value: string) => void
   ) => {
     setImg(
       "https://cdn.pixabay.com/photo/2018/11/13/21/43/instagram-3814049_960_720.png"
     );
-    setFieldValue("avatar", {});
+    setFieldValue("avatar", "");
   };
 
   const classes = useStyles();
@@ -181,6 +181,7 @@ const SignUp: React.FC<LoginProps> = () => {
             email: values.email,
             password: values.password,
           };
+
           if (values.avatar) {
             let formData = new FormData();
             formData.append("image", values.avatar);
@@ -363,7 +364,7 @@ const SignUp: React.FC<LoginProps> = () => {
                     style={{ marginLeft: 25 }}
                     disabled={loding}
                   >
-                    SignIn
+                    Back
                   </Button>
                 </Box>
               </Box>

@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     height: 50,
   },
   marginLeft: {
-    marginLeft: 10,
+    marginLeft: 2,
   },
 });
 

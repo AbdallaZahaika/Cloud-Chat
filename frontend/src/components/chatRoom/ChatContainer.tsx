@@ -4,17 +4,38 @@ import FooterChat from "./FooterChat";
 import React from "react";
 import { RootStore } from "../../store";
 import { useSelector } from "react-redux";
-import { Typography, Box } from "@material-ui/core";
+import {
+  Typography,
+  Box,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+  CircularProgress,
+} from "@material-ui/core";
 import { CloudCircle } from "@material-ui/icons";
 
 export interface ChatContainerProps {}
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: 0,
+    height: "93vh",
+    backgroundImage:
+      "url(https://i.pinimg.com/originals/7b/1d/8e/7b1d8e865da2c11b788a21a0fb51d542.jpg)",
+    [theme.breakpoints.down("sm")]: {
+      height: "100vh",
+    },
+  },
+}));
+
 const ChatContainer: React.FC<ChatContainerProps> = () => {
   const { room } = useSelector((state: RootStore) => state.chatRoom);
   const { userActive } = useSelector((state: RootStore) => state.user);
-
+  const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <>
+    <Box display="flex" flexDirection="column" className={classes.container}>
       {room.chatInfo._id && userActive ? (
         <>
           <NavBarRight />
@@ -42,7 +63,7 @@ const ChatContainer: React.FC<ChatContainerProps> = () => {
             <FooterChat _id={room.chatInfo._id} />
           )}
         </>
-      ) : (
+      ) : !matches ? (
         <Box
           height="93vh"
           display="flex"
@@ -55,7 +76,7 @@ const ChatContainer: React.FC<ChatContainerProps> = () => {
             style={{ fontSize: 150, marginTop: 10 }}
           />
 
-          <Typography variant="h3"> Welcome To ClodChat</Typography>
+          <Typography variant="h3"> Welcome To Cloud Chat</Typography>
           <Box
             display="flex"
             mt={5}
@@ -81,7 +102,7 @@ const ChatContainer: React.FC<ChatContainerProps> = () => {
 
                 <li style={{ marginTop: 5 }}>
                   <Typography variant="h5">
-                    this web-appliction is for lerning only
+                    this web-application is for lerning only
                   </Typography>
                 </li>
 
@@ -97,12 +118,7 @@ const ChatContainer: React.FC<ChatContainerProps> = () => {
               <ul style={{ marginLeft: "14px" }}>
                 <li style={{ marginTop: 5 }}>
                   <Typography variant="h5">
-                    The web-appliction is not responsive (will be soon)
-                  </Typography>
-                </li>
-                <li style={{ marginTop: 5 }}>
-                  <Typography variant="h5">
-                    to use in this appliction you need to sigUp and verify your
+                    to use in this application you need to sigUp and verify your
                     email
                   </Typography>
                 </li>
@@ -127,8 +143,19 @@ const ChatContainer: React.FC<ChatContainerProps> = () => {
             </Box>
           </Box>
         </Box>
+      ) : room.chatInfo._id ? (
+        ""
+      ) : (
+        <Box
+          height="100vh"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <CircularProgress />
+        </Box>
       )}
-    </>
+    </Box>
   );
 };
 
