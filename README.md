@@ -10,7 +10,7 @@
 4:When you receive a friend request you get a notification in the application
 <br/>
 ### link to visit website
-https://cloud-chat-project.netlify.app/
+https://chat-app-project2.netlify.app/
 
 ### This web-application was built by two students as full stack developer
 ### The friend I worked with is : https://github.com/ohad2406/
